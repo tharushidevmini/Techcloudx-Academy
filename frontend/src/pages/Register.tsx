@@ -20,7 +20,8 @@ export const Register: React.FC = () => {
     setSuccessMsg(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/auth/register', {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
+      const response = await fetch(`${apiBase}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

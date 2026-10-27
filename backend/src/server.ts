@@ -7,7 +7,7 @@ import { pool } from './config/db';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.BACKEND_PORT || 8000;
+const PORT = process.env.PORT || process.env.BACKEND_PORT || 5000;
 
 // CORS configuration supporting Vite dev server
 const allowedOrigins = [
