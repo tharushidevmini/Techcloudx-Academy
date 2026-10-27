@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" fill="none">
+  <defs>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="orbitGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+  </defs>
+  <!-- Cloud Icon with Tech Hexagon / Orbit -->
+  <g transform="translate(10, 10)">
+    <circle cx="30" cy="30" r="28" fill="#0f172a" stroke="url(#orbitGrad)" stroke-width="2.5" />
+    <path d="M22 36a8 8 0 0 1-2-15.7 12 12 0 0 1 23-2.3 9 9 0 0 1 3 17.5l-24 .5z" fill="url(#cloudGrad)" />
+    <!-- X Accent in Cloud -->
+    <path d="M25 24l10 12M35 24l-10 12" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+  <!-- Brand Text -->
+  <text x="80" y="38" font-family="'Outfit', 'Inter', sans-serif" font-weight="800" font-size="24" fill="#ffffff">
+    TechCloud<tspan fill="#38bdf8">X</tspan>
+  </text>
+  <text x="82" y="55" font-family="'Inter', sans-serif" font-weight="600" font-size="11" letter-spacing="3" fill="#94a3b8">
+    ACADEMY
+  </text>
+</svg>
