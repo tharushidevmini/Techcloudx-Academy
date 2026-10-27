@@ -1,37 +1,46 @@
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.core.config import settings
+from app.api.v1.api import api_router
 
 app = FastAPI(
-    title="TechCloudX Academy API",
-    description="Industrial-grade Cloud Training Management Platform (LMS) API",
+    title=settings.PROJECT_NAME,
+    description="TechCloudX Academy — Industrial-Grade Cloud Training Management Platform (LMS) API",
     version="1.0.0",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url="/docs",
     redoc_url="/redoc",
 )
 
-origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
-
+# Configure CORS Middleware for Frontend Clients
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.get("/health", tags=["System"])
+# Mount API v1 Routers (includes /api/v1/auth)
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/health", tags=["Health & System"])
 def health_check():
+    """System health check endpoint for container orchestrators and uptime monitors."""
     return {
         "status": "healthy",
-        "service": "TechCloudX Academy Backend",
-        "environment": os.getenv("ENVIRONMENT", "development"),
+        "service": settings.PROJECT_NAME,
+        "environment": settings.ENVIRONMENT,
+        "version": "1.0.0",
     }
 
-@app.get("/api/v1", tags=["Root"])
+
+@app.get("/", tags=["Health & System"])
 def root():
+    """Root platform discovery endpoint."""
     return {
-        "message": "Welcome to TechCloudX Academy API",
+        "message": f"Welcome to {settings.PROJECT_NAME} API",
         "docs": "/docs",
-        "version": "1.0.0",
+        "api_v1": settings.API_V1_STR,
     }
