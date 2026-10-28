@@ -47,20 +47,13 @@ export const Home: React.FC = () => {
     <div className="space-y-24 pb-20">
       {/* Hero Section */}
       <section
-        className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32 bg-cover bg-center bg-no-repeat border-b border-slate-800/60"
         style={{ backgroundImage: `url(${heroBg})` }}
+        className="relative bg-cover bg-center bg-no-repeat min-h-[85vh] flex items-center justify-center overflow-hidden border-b border-slate-800/60 py-16"
       >
-        {/* Sleek Dark Multi-gradient & Backdrop Overlay for High Contrast */}
-        <div className="absolute inset-0 bg-slate-950/75 mix-blend-multiply pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b132b]/95 via-slate-950/85 to-[#0b132b] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-slate-950/90 pointer-events-none" />
-        <div className="absolute inset-0 backdrop-blur-[1px] pointer-events-none" />
+        {/* Subtle dark gradient overlay allowing background image to show clearly */}
+        <div className="absolute inset-0 bg-slate-950/65 bg-gradient-to-b from-slate-950/80 via-slate-900/60 to-slate-950/90 z-0 pointer-events-none" />
 
-        {/* Ambient Glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-sky-500/15 blur-[140px] rounded-full pointer-events-none" />
-        <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 w-full">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-semibold text-sky-300 border border-sky-500/30 shadow-lg shadow-sky-500/10 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-sky-400" />
             <span>Cohort 2026 Live Cohort Admissions Now Open</span>
