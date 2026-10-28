@@ -13,7 +13,7 @@ import {
   Sparkles,
   ExternalLink,
 } from 'lucide-react';
-import logoImg from '../assets/logo.png';
+import heroBg from '../assets/background.png';
 
 export const Home: React.FC = () => {
   const tracks = [
@@ -46,22 +46,31 @@ export const Home: React.FC = () => {
   return (
     <div className="space-y-24 pb-20">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 lg:pt-20">
-        {/* Ambient Glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-sky-500/20 blur-[130px] rounded-full pointer-events-none -z-10" />
-        <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-indigo-600/15 blur-[100px] rounded-full pointer-events-none -z-10" />
+      <section
+        className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32 bg-cover bg-center bg-no-repeat border-b border-slate-800/60"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
+        {/* Sleek Dark Multi-gradient & Backdrop Overlay for High Contrast */}
+        <div className="absolute inset-0 bg-slate-950/75 mix-blend-multiply pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b132b]/95 via-slate-950/85 to-[#0b132b] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-slate-950/90 pointer-events-none" />
+        <div className="absolute inset-0 backdrop-blur-[1px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-semibold text-sky-300 border border-sky-500/30 shadow-lg shadow-sky-500/10">
+        {/* Ambient Glows */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-sky-500/15 blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-semibold text-sky-300 border border-sky-500/30 shadow-lg shadow-sky-500/10 backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-sky-400" />
             <span>Cohort 2026 Live Cohort Admissions Now Open</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight font-['Outfit']">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight font-['Outfit'] drop-shadow-md">
             Master Industrial Cloud Architecture & <span className="gradient-text">DevOps at Scale</span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-300 font-normal leading-relaxed">
+          <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-200 font-normal leading-relaxed drop-shadow-sm">
             TechCloudX Academy delivers production-grade cloud training for engineers. Hands-on live cohorts, dedicated cloud sandboxes, and enterprise architectural blueprints.
           </p>
 
@@ -75,7 +84,7 @@ export const Home: React.FC = () => {
             </Link>
             <Link
               to="/register"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-slate-200 bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-slate-100 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-slate-600 transition-all backdrop-blur-sm"
             >
               <span>Enroll as Student</span>
             </Link>
@@ -83,19 +92,19 @@ export const Home: React.FC = () => {
 
           {/* Social Proof Stats */}
           <div className="pt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto border-t border-slate-800/80">
-            <div>
+            <div className="p-3 rounded-xl bg-slate-950/40 backdrop-blur-sm border border-white/5">
               <p className="text-3xl sm:text-4xl font-extrabold text-white font-['Outfit']">98.4%</p>
               <p className="text-xs uppercase tracking-wider text-slate-400 mt-1">Exam Pass Rate</p>
             </div>
-            <div>
+            <div className="p-3 rounded-xl bg-slate-950/40 backdrop-blur-sm border border-white/5">
               <p className="text-3xl sm:text-4xl font-extrabold text-sky-400 font-['Outfit']">12,000+</p>
               <p className="text-xs uppercase tracking-wider text-slate-400 mt-1">Engineers Trained</p>
             </div>
-            <div>
+            <div className="p-3 rounded-xl bg-slate-950/40 backdrop-blur-sm border border-white/5">
               <p className="text-3xl sm:text-4xl font-extrabold text-white font-['Outfit']">100%</p>
               <p className="text-xs uppercase tracking-wider text-slate-400 mt-1">Hands-on Labs</p>
             </div>
-            <div>
+            <div className="p-3 rounded-xl bg-slate-950/40 backdrop-blur-sm border border-white/5">
               <p className="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-['Outfit']">4.9 / 5</p>
               <p className="text-xs uppercase tracking-wider text-slate-400 mt-1">Student Satisfaction</p>
             </div>
