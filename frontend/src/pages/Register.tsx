@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Lock, Shield, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { User, Mail, Lock, Shield, ArrowRight, AlertCircle, CheckCircle2, Calendar, Award } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
 export const Register: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const courseParam = searchParams.get('course');
+  const batchParam = searchParams.get('batch');
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,6 +71,33 @@ export const Register: React.FC = () => {
             Join the next generation of Cloud Architects and Platform Engineers.
           </p>
         </div>
+
+        {/* Selected Track & Batch Notification */}
+        {(courseParam || batchParam) && (
+          <div className="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-between text-xs">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1">
+                <Award className="w-3.5 h-3.5" />
+                Target Certification Track
+              </span>
+              <div className="font-bold text-white capitalize">
+                {(courseParam || 'Microsoft Azure Certification').replace(/-/g, ' ')}
+              </div>
+              {batchParam && (
+                <div className="text-[11px] text-slate-300 flex items-center gap-1">
+                  <Calendar className="w-3 h-3 text-sky-400" />
+                  Cohort: <span className="text-sky-300 font-semibold">{batchParam}</span>
+                </div>
+              )}
+            </div>
+            <Link
+              to="/courses"
+              className="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 text-[11px] font-semibold transition-all"
+            >
+              Change
+            </Link>
+          </div>
+        )}
 
         {/* Feedback Alerts */}
         {errorMsg && (

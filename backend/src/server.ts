@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
+import courseRoutes from './routes/course.routes';
+import batchRoutes from './routes/batch.routes';
 import { pool } from './config/db';
 
 dotenv.config();
@@ -62,6 +64,8 @@ app.get('/', (req: Request, res: Response) => {
     endpoints: {
       health: '/health',
       auth: '/api/v1/auth',
+      courses: '/api/v1/courses',
+      batches: '/api/v1/batches/:id',
     },
   });
 });
@@ -69,6 +73,10 @@ app.get('/', (req: Request, res: Response) => {
 // Mount Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/auth', authRoutes); // Convenience alias
+app.use('/api/v1/courses', courseRoutes);
+app.use('/api/courses', courseRoutes); // Convenience alias
+app.use('/api/v1/batches', batchRoutes);
+app.use('/api/batches', batchRoutes); // Convenience alias
 
 // Global Error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
