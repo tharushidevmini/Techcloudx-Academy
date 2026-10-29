@@ -1,0 +1,763 @@
+[
+  {
+    "id": "c0000000-0000-0000-0000-000000000900",
+    "title": "Microsoft 365 Fundamentals",
+    "slug": "ms-900-microsoft-365-fundamentals",
+    "certification_code": "MS-900",
+    "category": "Microsoft 365 Administration",
+    "category_slug": "m365",
+    "description": "Foundational understanding of Microsoft 365 cloud services, software-as-a-service (SaaS) options, collaboration apps, security, compliance, privacy, and Microsoft 365 pricing and licensing.",
+    "price_cents": 0,
+    "price_usd": 0,
+    "price_lkr": 0,
+    "price_formatted": "Free with MS-102",
+    "level": "Beginner",
+    "duration": "2 Weeks",
+    "schedule": "Every Saturday | 09:00 AM - 12:00 PM IST",
+    "mode": "Live Online Training",
+    "prerequisite": "None",
+    "status": "Free with MS-102",
+    "badge_text": "Official Free Pathway",
+    "technologies": ["Microsoft 365", "Exchange Online", "SharePoint", "Teams", "OneDrive", "Cloud SaaS"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Cloud Concepts & Microsoft 365 Productivity Services",
+        "topics": ["Cloud Computing Models (IaaS, PaaS, SaaS)", "Teams, Exchange, SharePoint, OneDrive Architecture", "Collaboration & Productivity Tools"],
+        "lab": "Exploring Microsoft 365 Tenant Admin Center & User Lifecycle"
+      },
+      {
+        "module_number": 2,
+        "title": "Security, Compliance, Privacy & Licensing",
+        "topics": ["Zero-Trust Identity Basics", "Data Loss Prevention & Compliance Portal", "Licensing, Support & Service Health"],
+        "lab": "Configuring security baselines & monitoring tenant health alerts"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "c0000000-0000-0000-0000-000000000102",
+    "title": "Microsoft 365 Administrator",
+    "slug": "ms-102-microsoft-365-administrator",
+    "certification_code": "MS-102",
+    "category": "Microsoft 365 Administration",
+    "category_slug": "m365",
+    "description": "Deploy, configure, and manage Microsoft 365 tenants, Entra ID hybrid synchronization, security policies, threat protection, data governance, compliance management, and endpoint deployments.",
+    "price_cents": 7000,
+    "price_usd": 70,
+    "price_lkr": 21000,
+    "price_formatted": "21,000 LKR (Installments: 2)",
+    "installments": "2 Installments Available",
+    "level": "Intermediate",
+    "duration": "6 Weeks",
+    "schedule": "Every Saturday",
+    "mode": "Live Online Classes",
+    "prerequisite": "Basic IT administration",
+    "includes": "MS-900 included free",
+    "status": "Active Cohort",
+    "badge_text": "Includes Free MS-900",
+    "technologies": ["Microsoft 365 Admin", "Microsoft Entra ID", "Defender for Office 365", "Purview", "Intune", "PowerShell"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Configure Microsoft 365 Tenant & Entra ID",
+        "topics": ["Custom Domains, DNS & Tenant Settings", "User, Group & License Management", "Microsoft Entra Connect Hybrid Sync"],
+        "lab": "Deploying hybrid identity synchronization with password hash sync"
+      },
+      {
+        "module_number": 2,
+        "title": "Manage Microsoft 365 Security & Threats",
+        "topics": ["Defender for Office 365 Anti-Phishing & Safe Links", "Conditional Access & Multi-Factor Authentication", "Defender for Endpoint Overview"],
+        "lab": "Implementing zero-trust conditional access policies & phishing simulation"
+      },
+      {
+        "module_number": 3,
+        "title": "Manage Compliance & Data Governance with Purview",
+        "topics": ["Data Loss Prevention (DLP) Policies", "Sensitivity Labels & Retention Labels", "eDiscovery & Audit Logs"],
+        "lab": "Creating sensitive data discovery rules & automated retention policies"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000900",
+    "title": "Microsoft Azure Fundamentals",
+    "slug": "az-900-azure-fundamentals",
+    "certification_code": "AZ-900",
+    "category": "Cloud & Infrastructure",
+    "category_slug": "cloud-infra",
+    "description": "Master foundational cloud concepts, Azure architectural components, core compute and storage solutions, Entra ID identity management, governance compliance, and cost optimization.",
+    "price_cents": 0,
+    "price_usd": 0,
+    "price_lkr": 0,
+    "price_formatted": "Free with AZ-104",
+    "level": "Beginner",
+    "duration": "Included in 4-Month AZ-104",
+    "schedule": "Every Sunday",
+    "mode": "Live Interactive Cohort",
+    "prerequisite": "None",
+    "includes": "Included in 4-Month AZ-104",
+    "status": "Free with AZ-104",
+    "badge_text": "Free with AZ-104",
+    "technologies": ["Azure Portal", "Azure CLI", "Compute & Storage", "Entra ID", "ARM Templates", "Cost Management"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Cloud Concepts & Azure Core Architecture",
+        "topics": ["Cloud Computing Models", "Regions & Availability Zones", "Resource Groups & Subscriptions"],
+        "lab": "Deploying cloud resources via Azure Portal and Cloud Shell"
+      },
+      {
+        "module_number": 2,
+        "title": "Core Compute, Storage & Identity",
+        "topics": ["Virtual Machines & Containers", "Blob Storage & Redundancy", "Microsoft Entra ID & RBAC"],
+        "lab": "Configuring secure static website hosting & role assignments"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000104",
+    "title": "Microsoft Azure Administrator Associate",
+    "slug": "az-104-azure-administrator",
+    "certification_code": "AZ-104",
+    "category": "Cloud & Infrastructure",
+    "category_slug": "cloud-infra",
+    "description": "Enterprise cloud administration: manage Azure identities and governance, implement storage solutions, deploy compute resources, configure virtual networks, and monitor cloud resources with Terraform and ARM.",
+    "price_cents": 10500,
+    "price_usd": 105,
+    "price_lkr": 32000,
+    "price_formatted": "32,000 LKR",
+    "level": "Associate",
+    "duration": "4 Months",
+    "schedule": "Every Sunday",
+    "mode": "Live Interactive Cohort",
+    "prerequisite": "Basic networking & OS knowledge",
+    "includes": "AZ-900 fundamentals training included free",
+    "status": "Active Cohort",
+    "badge_text": "Includes Free AZ-900",
+    "technologies": ["Virtual Networks", "Azure VMs", "Kubernetes (AKS)", "ARM & Bicep", "Entra ID", "Log Analytics", "Terraform", "Backup & DR"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Manage Azure Identities & Governance",
+        "topics": ["Entra ID Users & Groups", "Custom RBAC & PIM", "Azure Policy & Management Groups"],
+        "lab": "Configuring self-service password reset & PIM role activations"
+      },
+      {
+        "module_number": 2,
+        "title": "Implement & Manage Secure Cloud Storage",
+        "topics": ["Storage Accounts & SAS Tokens", "Azure Files & File Sync", "Lifecycle Management & Soft Delete"],
+        "lab": "Private endpoint storage accounts with automated lifecycle archiving"
+      },
+      {
+        "module_number": 3,
+        "title": "Deploy & Manage Azure Compute Resources",
+        "topics": ["VM Scale Sets (VMSS)", "Azure Kubernetes Service (AKS)", "App Service Deployment Slots"],
+        "lab": "Deploying an auto-scaling VMSS with blue-green deployment slots"
+      },
+      {
+        "module_number": 4,
+        "title": "Configure & Manage Virtual Networking",
+        "topics": ["VNets, Subnets & NSGs", "VNet Peering & Azure Bastion", "Load Balancers & Application Gateways"],
+        "lab": "Architecting a hub-and-spoke VNet topology with firewall routing"
+      },
+      {
+        "module_number": 5,
+        "title": "Monitor, Backup & Maintain Azure Resources",
+        "topics": ["Azure Monitor & Log Analytics KQL", "Azure Backup & Site Recovery (ASR)", "Terraform Automation"],
+        "lab": "Writing complex Kusto (KQL) queries & disaster recovery failovers"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000305",
+    "title": "Designing Microsoft Azure Infrastructure Solutions",
+    "slug": "az-305-azure-solutions-architect",
+    "certification_code": "AZ-305",
+    "category": "Cloud & Infrastructure",
+    "category_slug": "cloud-infra",
+    "description": "Master enterprise solution architecture on Azure. Design governance, authentication, compute, data storage, high availability, business continuity, and migration strategies.",
+    "price_cents": 12500,
+    "price_usd": 125,
+    "price_lkr": 38000,
+    "price_formatted": "38,000 LKR",
+    "level": "Expert",
+    "duration": "10 Weeks",
+    "schedule": "Every Sunday | 02:00 PM - 06:00 PM IST",
+    "mode": "Live Advanced Cohort",
+    "prerequisite": "AZ-104 certified or equivalent production experience",
+    "status": "Active Cohort",
+    "badge_text": "Expert Tier Certification",
+    "technologies": ["Enterprise Architecture", "Azure Landing Zones", "Cosmos DB", "AKS", "Azure Synapse", "Well-Architected Framework"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Design Identity, Governance & Monitoring Solutions",
+        "topics": ["Enterprise Landing Zones (CAF)", "Federated Identity & Privileged Access", "Centralized Logging & SIEM"],
+        "lab": "Designing an Enterprise Cloud Adoption Framework landing zone hierarchy"
+      },
+      {
+        "module_number": 2,
+        "title": "Design Data Storage & Business Continuity Solutions",
+        "topics": ["Relational vs NoSQL Database Architectures", "Multi-region Replication & Disaster Recovery", "Backup & Recovery Objectives (RPO/RTO)"],
+        "lab": "Architecting a globally distributed multi-write Cosmos DB database"
+      },
+      {
+        "module_number": 3,
+        "title": "Design Compute, Networking & Migration Strategies",
+        "topics": ["Microservices on AKS & Container Apps", "Virtual WAN & Zero-Trust Perimeters", "Azure Migrate Datacenter Migration"],
+        "lab": "Designing a zero-downtime datacenter migration to Azure IaaS & PaaS"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000800",
+    "title": "Administering Windows Server Hybrid Core Infrastructure",
+    "slug": "az-800-windows-server-hybrid-core",
+    "certification_code": "AZ-800",
+    "category": "Cloud & Infrastructure",
+    "category_slug": "cloud-infra",
+    "description": "Administer core Windows Server workloads and services in hybrid on-premises and Azure IaaS environments, Active Directory Domain Services (AD DS), identity, compute, networking, and storage.",
+    "price_cents": 9200,
+    "price_usd": 92,
+    "price_lkr": 28000,
+    "price_formatted": "28,000 LKR",
+    "level": "Associate",
+    "duration": "8 Weeks",
+    "schedule": "Every Saturday | 06:00 PM - 09:30 PM IST",
+    "mode": "Live Online Classes",
+    "prerequisite": "Windows Server & AD basics",
+    "status": "Active Cohort",
+    "badge_text": "Hybrid Datacenter Core",
+    "technologies": ["Windows Server 2022/2025", "Active Directory", "Azure Arc", "Azure AD Connect", "DNS/DHCP", "Storage Spaces Direct"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Deploy & Manage Active Directory Domain Services in Hybrid Environments",
+        "topics": ["On-premises AD DS & Azure IaaS Domain Controllers", "Azure AD Connect Cloud Sync", "Group Policy & Azure Arc Policy"],
+        "lab": "Deploying read-only domain controllers and hybrid sync"
+      },
+      {
+        "module_number": 2,
+        "title": "Manage Windows Servers & Hybrid Storage Workloads",
+        "topics": ["Windows Admin Center in Azure", "Azure File Sync & Tiering", "Storage Spaces Direct (S2D)"],
+        "lab": "Configuring Azure File Sync with local caching servers"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000801",
+    "title": "Configuring Windows Server Hybrid Advanced Services",
+    "slug": "az-801-windows-server-hybrid-advanced",
+    "certification_code": "AZ-801",
+    "category": "Cloud & Infrastructure",
+    "category_slug": "cloud-infra",
+    "description": "Configure advanced Windows Server services using on-premises, hybrid, and cloud-native solutions: clustering, disaster recovery, advanced security, migration, and monitoring.",
+    "price_cents": 9200,
+    "price_usd": 92,
+    "price_lkr": 28000,
+    "price_formatted": "28,000 LKR",
+    "level": "Associate",
+    "duration": "8 Weeks",
+    "schedule": "Every Sunday | 06:00 PM - 09:30 PM IST",
+    "mode": "Live Online Classes",
+    "prerequisite": "AZ-800 recommended",
+    "status": "Active Cohort",
+    "badge_text": "Advanced Hybrid Services",
+    "technologies": ["Failover Clustering", "Azure Site Recovery", "Defender for Cloud", "Hyper-V", "Azure Arc", "Migration"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Secure Windows Server Hybrid Infrastructure",
+        "topics": ["Hardening Domain Controllers & BitLocker", "Credential Guard & JEA/JIT", "Azure Arc-enabled Servers with Defender"],
+        "lab": "Implementing Just-Enough-Administration & Credential Guard"
+      },
+      {
+        "module_number": 2,
+        "title": "High Availability & Disaster Recovery in Windows Server",
+        "topics": ["Failover Clustering with Cloud Witness", "Hyper-V Replica & Azure Site Recovery", "Storage Replica & Cluster Sets"],
+        "lab": "Configuring Windows Failover Cluster with Azure Cloud Witness"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000802",
+    "title": "Windows Server Hybrid Administrator (Transition)",
+    "slug": "az-802-windows-server-hybrid-transition",
+    "certification_code": "AZ-802",
+    "category": "Cloud & Infrastructure",
+    "category_slug": "cloud-infra",
+    "description": "Official announced transition pathway for modern hybrid Windows Server administrators bridging traditional datacenter operations with Azure Arc, Azure Stack HCI, and cloud management.",
+    "price_cents": 0,
+    "price_usd": 0,
+    "price_lkr": 0,
+    "price_formatted": "Announced / Upcoming",
+    "level": "Specialty",
+    "duration": "TBA",
+    "schedule": "Announced Pathway",
+    "mode": "Upcoming Pathway",
+    "prerequisite": "Windows Server experience",
+    "status": "Upcoming / Announced Pathway",
+    "badge_text": "Announced Pathway",
+    "technologies": ["Azure Arc", "Azure Stack HCI", "Windows Server 2025", "Cloud Automation"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Modern Hybrid Cloud Management Transition",
+        "topics": ["Azure Arc Control Plane Integration", "Azure Stack HCI Hyperconverged Infrastructure", "Cloud Migration Patterns"],
+        "lab": "Hands-on preview of Azure Arc server management"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000700",
+    "title": "Microsoft Azure Network Engineer Associate",
+    "slug": "az-700-azure-network-engineer",
+    "certification_code": "AZ-700",
+    "category": "Cloud Networking",
+    "category_slug": "networking",
+    "description": "Master advanced enterprise cloud networking, multi-region hybrid connectivity, Virtual WAN architectures, Application Gateway v2 with WAF, Azure Front Door, Private Link ecosystems, and zero-trust perimeter network security.",
+    "price_cents": 10000,
+    "price_usd": 100,
+    "price_lkr": 30000,
+    "price_formatted": "30,000 LKR",
+    "level": "Associate",
+    "duration": "3 Months",
+    "schedule": "Every Friday",
+    "batch_start": "30 October 2026",
+    "mode": "Live Interactive Cohort",
+    "prerequisite": "AZ-104 certification is mandatory",
+    "status": "Active Cohort (Starts 30 Oct 2026)",
+    "badge_text": "Mandatory AZ-104 Required",
+    "technologies": ["Azure Virtual WAN", "ExpressRoute", "Application Gateway WAF", "Azure Firewall", "Private Link", "Network Watcher", "Traffic Analytics"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Core Enterprise Networking Infrastructure",
+        "topics": ["CIDR IP Planning & Private DNS Zones", "Custom Routing Tables (UDR) & BGP", "Multi-region Virtual Network Peering"],
+        "lab": "Building a resilient multi-region mesh network with cross-subscription VNet peering"
+      },
+      {
+        "module_number": 2,
+        "title": "Hybrid Connectivity & Virtual WAN",
+        "topics": ["Site-to-Site & Point-to-Site VPN Gateways", "ExpressRoute Architecture, Peering & FastPath", "Global Azure Virtual WAN (vWAN) with Secure Hubs"],
+        "lab": "Simulating on-premises to Azure hybrid failover via redundant VPN & ExpressRoute"
+      },
+      {
+        "module_number": 3,
+        "title": "Layer 4 & Layer 7 Load Balancing & Acceleration",
+        "topics": ["Azure Load Balancer (Public & Internal)", "Application Gateway v2 with Web Application Firewall", "Azure Front Door (AFD) Global Routing & CDN"],
+        "lab": "Deploying Application Gateway with custom OWASP WAF rules"
+      },
+      {
+        "module_number": 4,
+        "title": "Zero-Trust Network Security & Monitoring",
+        "topics": ["Azure Firewall Premium with TLS Inspection & IDPS", "Azure DDoS Protection & Network Perimeters", "Network Watcher, Connection Monitor & Traffic Analytics"],
+        "lab": "Implementing end-to-end zero-trust network segmentation and Traffic Analytics"
+      },
+      {
+        "module_number": 5,
+        "title": "Private PaaS Connectivity & DNS Architecture",
+        "topics": ["Private Link & Private Endpoints", "Service Endpoints vs Private Link Trade-offs", "Private DNS Resolution Architectures"],
+        "lab": "Locking down SQL, KeyVault, and Storage with Private Link integration"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000400",
+    "title": "Designing and Implementing Microsoft DevOps Solutions",
+    "slug": "az-400-azure-devops-solutions",
+    "certification_code": "AZ-400",
+    "category": "DevOps & Cloud Development",
+    "category_slug": "devops",
+    "description": "Master modern DevSecOps: source control with Git & GitHub, Azure Pipelines multi-stage CI/CD, dependency management, security scanning (SonarQube/Trivy), infrastructure as code (Terraform), and continuous feedback loops.",
+    "price_cents": 11500,
+    "price_usd": 115,
+    "price_lkr": 35000,
+    "price_formatted": "35,000 LKR",
+    "level": "Expert",
+    "duration": "10 Weeks",
+    "schedule": "Every Saturday | 03:00 PM - 07:00 PM IST",
+    "mode": "Live Hands-on Cohort",
+    "prerequisite": "AZ-104 or AZ-204",
+    "status": "Active Cohort",
+    "badge_text": "Expert DevOps Track",
+    "technologies": ["Azure DevOps", "GitHub Actions", "Terraform", "Docker", "Kubernetes", "SonarQube", "Trivy", "ArgoCD"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Develop an Instrumentation & Site Reliability Strategy",
+        "topics": ["Azure Monitor, Application Insights & Log Analytics", "SLIs/SLOs formulation & telemetry collection", "Chaos Engineering & Alerting Strategies"],
+        "lab": "Instrumenting web apps with distributed tracing and custom metrics"
+      },
+      {
+        "module_number": 2,
+        "title": "Develop a Modern Site Reliability & Source Control Strategy",
+        "topics": ["Git branching models (Trunk-based vs GitFlow)", "Repository security & branch policies", "Dependency management & package feeds"],
+        "lab": "Configuring multi-repo branch protection rules and security scanning"
+      },
+      {
+        "module_number": 3,
+        "title": "Design & Implement CI/CD Security & Release Pipelines",
+        "topics": ["YAML pipelines in Azure Pipelines & GitHub Actions", "Infrastructure as Code with Terraform & Bicep", "Container deployments to AKS via Helm & GitOps"],
+        "lab": "Building zero-downtime blue-green release pipelines for containerized apps"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000204",
+    "title": "Developing Solutions for Microsoft Azure",
+    "slug": "az-204-azure-developer-associate",
+    "certification_code": "AZ-204",
+    "category": "DevOps & Cloud Development",
+    "category_slug": "devops",
+    "description": "Cloud software engineering: Azure App Services, Functions, Cosmos DB, Blob Storage, secure authentication with Entra ID, event-driven architecture (Event Grid, Service Bus), and API Management.",
+    "price_cents": 10500,
+    "price_usd": 105,
+    "price_lkr": 32000,
+    "price_formatted": "32,000 LKR",
+    "level": "Associate",
+    "duration": "10 Weeks",
+    "schedule": "Every Sunday | 09:00 AM - 01:00 PM IST",
+    "mode": "Live Developer Cohort",
+    "prerequisite": "C# / Python / Node.js development experience",
+    "status": "Active Cohort",
+    "badge_text": "Cloud Developer Track",
+    "technologies": ["Azure Functions", "Cosmos DB", "App Service", "Event Grid", "Service Bus", "Key Vault", "Docker", "API Management"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Develop Azure Compute Solutions",
+        "topics": ["Azure App Service Web Apps & Containers", "Serverless Azure Functions & Triggers", "Container Apps & Azure Container Instances"],
+        "lab": "Deploying microservices using Azure Container Apps and serverless functions"
+      },
+      {
+        "module_number": 2,
+        "title": "Develop for Azure Storage & NoSQL Databases",
+        "topics": ["Cosmos DB Partitioning & Consistency Models", "Blob Storage Tiers & Metadata", "Redis Cache Optimization"],
+        "lab": "Building low-latency CRUD APIs backed by Azure Cosmos DB"
+      },
+      {
+        "module_number": 3,
+        "title": "Implement Azure Security & Event-Driven Architecture",
+        "topics": ["Microsoft Authentication Library (MSAL) & OAuth2", "Azure Key Vault & Managed Identities", "Azure Event Grid & Service Bus Queues"],
+        "lab": "Developing asynchronous event-driven microservices with Service Bus"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000200",
+    "title": "Designing and Implementing Azure AI Solutions (Next-Gen)",
+    "slug": "ai-200-azure-ai-solutions-replacement",
+    "certification_code": "AI-200",
+    "category": "DevOps & Cloud Development",
+    "category_slug": "devops",
+    "description": "Official announced replacement pathway for advanced AI developers: build enterprise AI applications with Azure OpenAI, Prompt Flow, RAG architectures, Semantic Kernel, and custom agents.",
+    "price_cents": 0,
+    "price_usd": 0,
+    "price_lkr": 0,
+    "price_formatted": "Announced / Upcoming",
+    "level": "Intermediate",
+    "duration": "TBA",
+    "schedule": "Upcoming Pathway",
+    "mode": "Upcoming Pathway",
+    "prerequisite": "Python & Cloud basics",
+    "status": "Upcoming Pathway",
+    "badge_text": "Announced Pathway",
+    "technologies": ["Azure OpenAI", "Semantic Kernel", "Prompt Flow", "LangChain", "Vector DB", "RAG"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Enterprise Generative AI & Autonomous Agent Architecture",
+        "topics": ["Azure OpenAI Service & Model Selection", "RAG Patterns with Azure AI Search", "Semantic Kernel Agent Orchestration"],
+        "lab": "Hands-on preview of Azure OpenAI RAG pipeline"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000990",
+    "title": "Microsoft Azure AI Fundamentals",
+    "slug": "ai-900-azure-ai-fundamentals",
+    "certification_code": "AI-900",
+    "category": "Artificial Intelligence (AI)",
+    "category_slug": "ai",
+    "description": "Fundamentals of Machine Learning, Computer Vision, Natural Language Processing (NLP), Conversational AI, and Responsible Generative AI workloads on Azure.",
+    "price_cents": 5000,
+    "price_usd": 50,
+    "price_lkr": 15000,
+    "price_formatted": "15,000 LKR (or Free with advanced AI)",
+    "level": "Beginner",
+    "duration": "4 Weeks",
+    "schedule": "Every Saturday | 10:00 AM - 01:00 PM IST",
+    "mode": "Live Interactive Cohort",
+    "prerequisite": "None",
+    "status": "Active Cohort",
+    "badge_text": "Free with Advanced AI",
+    "technologies": ["Azure Machine Learning", "Computer Vision", "Language Studio", "Azure OpenAI", "Document Intelligence"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Fundamental Machine Learning & Automated ML",
+        "topics": ["Regression, Classification & Clustering Concepts", "Automated Machine Learning in Azure ML Studio", "No-code Model Training & Deployment"],
+        "lab": "Training and evaluating predictive models with Automated ML"
+      },
+      {
+        "module_number": 2,
+        "title": "Computer Vision & Natural Language Processing",
+        "topics": ["Image Analysis & Optical Character Recognition (OCR)", "Sentiment Analysis & Conversational Language Understanding", "Azure OpenAI & Responsible AI Principles"],
+        "lab": "Deploying computer vision APIs & Generative AI prompts"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000901",
+    "title": "Azure Generative AI & Copilot Fundamentals (Transition)",
+    "slug": "ai-901-azure-genai-copilot-fundamentals",
+    "certification_code": "AI-901",
+    "category": "Artificial Intelligence (AI)",
+    "category_slug": "ai",
+    "description": "Announced foundational transition pathway focusing on Microsoft Copilot Studio, prompt engineering, Retrieval Augmented Generation (RAG) principles, and enterprise generative AI safety.",
+    "price_cents": 0,
+    "price_usd": 0,
+    "price_lkr": 0,
+    "price_formatted": "Announced / Upcoming",
+    "level": "Beginner",
+    "duration": "TBA",
+    "schedule": "Upcoming Pathway",
+    "mode": "Upcoming Pathway",
+    "prerequisite": "None",
+    "status": "Upcoming Pathway",
+    "badge_text": "Announced Pathway",
+    "technologies": ["Microsoft Copilot Studio", "Azure AI Foundry", "Prompt Engineering", "Responsible AI"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Generative AI Systems & Copilot Extensions",
+        "topics": ["Foundational LLM Capabilities", "Building Custom Copilots in Copilot Studio", "Responsible AI Governance"],
+        "lab": "Creating custom Copilot Studio agent with organizational knowledge"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "s0000000-0000-0000-0000-000000000900",
+    "title": "Microsoft Security, Compliance, and Identity Fundamentals",
+    "slug": "sc-900-security-compliance-identity",
+    "certification_code": "SC-900",
+    "category": "Cybersecurity & Identity Management",
+    "category_slug": "security",
+    "description": "Foundational concepts of security, compliance, and identity across cloud-based and related Microsoft services: Entra ID, Microsoft Defender, Microsoft Sentinel, and Purview.",
+    "price_cents": 5000,
+    "price_usd": 50,
+    "price_lkr": 15000,
+    "price_formatted": "15,000 LKR",
+    "level": "Beginner",
+    "duration": "3 Weeks",
+    "schedule": "Every Saturday | 04:00 PM - 07:00 PM IST",
+    "mode": "Live Online Classes",
+    "prerequisite": "None",
+    "status": "Active Cohort",
+    "badge_text": "Security Entry Foundation",
+    "technologies": ["Microsoft Entra ID", "Defender for Cloud", "Microsoft Sentinel", "Microsoft Purview", "Zero Trust"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Security & Identity Concepts",
+        "topics": ["Zero Trust Guiding Principles", "Shared Responsibility Model", "Microsoft Entra ID Authentication & MFA"],
+        "lab": "Configuring security defaults and user access controls in Entra ID"
+      },
+      {
+        "module_number": 2,
+        "title": "Microsoft Security & Compliance Solutions",
+        "topics": ["Microsoft Defender XDR Overview", "Cloud Security Posture Management (CSPM)", "Microsoft Purview Compliance Manager"],
+        "lab": "Evaluating security posture scores in Microsoft Defender for Cloud"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "s0000000-0000-0000-0000-000000000200",
+    "title": "Microsoft Security Operations Analyst",
+    "slug": "sc-200-security-operations-analyst",
+    "certification_code": "SC-200",
+    "category": "Cybersecurity & Identity Management",
+    "category_slug": "security",
+    "description": "Mitigate cyber threats using Microsoft 365 Defender, Defender for Cloud, and Microsoft Sentinel (SIEM/SOAR). Threat hunting with KQL, incident response, and automated remediation playbooks.",
+    "price_cents": 10500,
+    "price_usd": 105,
+    "price_lkr": 32000,
+    "price_formatted": "32,000 LKR",
+    "level": "Associate",
+    "duration": "8 Weeks",
+    "schedule": "Every Saturday | 02:00 PM - 06:00 PM IST",
+    "mode": "Live Hands-on Cohort",
+    "prerequisite": "Basic security & networking",
+    "status": "Active Cohort",
+    "badge_text": "SOC Analyst Track",
+    "technologies": ["Microsoft Sentinel", "Defender XDR", "Kusto Query Language (KQL)", "SIEM / SOAR", "Threat Hunting", "Incident Response"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Mitigate Threats with Microsoft Defender XDR",
+        "topics": ["Defender for Endpoint, Identity & Office 365", "Automated Investigation & Remediation (AIR)", "Threat Analytics & Attack Surface Reduction"],
+        "lab": "Investigating simulated ransomware incidents in Defender XDR"
+      },
+      {
+        "module_number": 2,
+        "title": "Cloud Workload Protection & Microsoft Sentinel SIEM",
+        "topics": ["Defender for Cloud Security Alerts", "Sentinel Data Connectors, Workbooks & Analytics Rules", "Writing advanced KQL threat hunting queries"],
+        "lab": "Building automated incident triage playbooks with Logic Apps in Sentinel"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "s0000000-0000-0000-0000-000000000300",
+    "title": "Microsoft Identity and Access Administrator",
+    "slug": "sc-300-identity-access-administrator",
+    "certification_code": "SC-300",
+    "category": "Cybersecurity & Identity Management",
+    "category_slug": "security",
+    "description": "Design and implement modern identity management with Microsoft Entra ID. Configure Conditional Access, MFA, Privileged Identity Management (PIM), App Registrations, and Entra Permissions Management.",
+    "price_cents": 10000,
+    "price_usd": 100,
+    "price_lkr": 30000,
+    "price_formatted": "30,000 LKR",
+    "level": "Associate",
+    "duration": "8 Weeks",
+    "schedule": "Every Sunday | 02:00 PM - 06:00 PM IST",
+    "mode": "Live Interactive Cohort",
+    "prerequisite": "Azure AD / Entra ID basics",
+    "status": "Active Cohort",
+    "badge_text": "Identity & Access Specialist",
+    "technologies": ["Microsoft Entra ID", "Conditional Access", "PIM", "Entra Permissions Management", "Identity Governance", "SSO"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Implement Identities in Microsoft Entra ID",
+        "topics": ["Hybrid Identity Sync & Password Hash Sync", "External Identities & B2B Collaboration", "Enterprise App Registrations & Single Sign-On (SSO)"],
+        "lab": "Configuring enterprise SAML SSO and automated user provisioning"
+      },
+      {
+        "module_number": 2,
+        "title": "Implement Authentication, Access Control & Governance",
+        "topics": ["Adaptive Conditional Access Policies & Risk-based MFA", "Privileged Identity Management (PIM) Time-bound Roles", "Access Reviews & Entitlement Management"],
+        "lab": "Setting up zero-trust conditional access with automated access reviews"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "s0000000-0000-0000-0000-000000000100",
+    "title": "Microsoft Cybersecurity Architect",
+    "slug": "sc-100-cybersecurity-architect",
+    "certification_code": "SC-100",
+    "category": "Cybersecurity & Identity Management",
+    "category_slug": "security",
+    "description": "Design and evolve an enterprise Zero Trust security strategy: hybrid infrastructure protection, data security, SecOps, Governance Risk Compliance (GRC), and cloud security posture management.",
+    "price_cents": 13000,
+    "price_usd": 130,
+    "price_lkr": 40000,
+    "price_formatted": "40,000 LKR",
+    "level": "Expert",
+    "duration": "10 Weeks",
+    "schedule": "Every Sunday | 06:00 PM - 10:00 PM IST",
+    "mode": "Live Masterclass Cohort",
+    "prerequisite": "SC-200, SC-300, or AZ-500",
+    "status": "Active Cohort",
+    "badge_text": "Cybersecurity Architect Lead",
+    "technologies": ["Zero Trust Architecture", "Cloud Security Benchmark", "GRC", "Threat Modeling", "Defender for Cloud", "Sentinel Architecture"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Design a Zero Trust Strategy & Architecture",
+        "topics": ["Zero Trust Principles Across Identity, Endpoints, Network & Data", "Enterprise Security Best Practices (MCSB)", "Threat Modeling & Attack Path Analysis"],
+        "lab": "Designing an end-to-end multi-tenant Zero Trust architecture blueprint"
+      },
+      {
+        "module_number": 2,
+        "title": "Design Security Operations, Identity & Infrastructure Strategies",
+        "topics": ["Enterprise SOC Design with Sentinel & Defender", "Privileged Access Workstations (PAW)", "Hybrid Cloud Network Microsegmentation"],
+        "lab": "Developing unified SecOps incident response playbooks for multi-cloud environments"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "a0000000-0000-0000-0000-000000000500",
+    "title": "Microsoft Azure Security Technologies",
+    "slug": "az-500-azure-security-technologies",
+    "certification_code": "AZ-500",
+    "category": "Cybersecurity & Identity Management",
+    "category_slug": "security",
+    "description": "Implement Azure security controls: identity & access, platform protection (NSGs, Azure Firewall, Bastion, Key Vault), data encryption at rest and in transit, and continuous security monitoring.",
+    "price_cents": 11000,
+    "price_usd": 110,
+    "price_lkr": 34000,
+    "price_formatted": "34,000 LKR",
+    "level": "Associate",
+    "duration": "10 Weeks",
+    "schedule": "Every Saturday | 09:00 AM - 01:00 PM IST",
+    "mode": "Live Interactive Cohort",
+    "prerequisite": "AZ-104 recommended",
+    "status": "Active Cohort",
+    "badge_text": "Azure Security Engineer",
+    "technologies": ["Azure Firewall", "NSG", "Azure Key Vault", "Defender for Cloud", "Customer-Managed Keys", "Private Link"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Manage Identity, Access & Platform Protection",
+        "topics": ["Azure Entra ID PIM & Conditional Access", "Perimeter Security (Firewall, DDoS, NSGs, Bastion)", "Host Security & Endpoint Protection"],
+        "lab": "Securing virtual machine workloads with Azure Bastion and Just-In-Time access"
+      },
+      {
+        "module_number": 2,
+        "title": "Secure Data, Applications & Security Operations",
+        "topics": ["Azure Key Vault Keys, Secrets & Certificates", "Data Encryption at Rest (CMK) & in Transit", "Defender for Cloud & Security Alerts Monitoring"],
+        "lab": "Configuring Customer-Managed Keys (CMK) encryption with Key Vault auto-rotation"
+      }
+    ],
+    "is_published": true
+  },
+  {
+    "id": "s0000000-0000-0000-0000-000000000500",
+    "title": "Microsoft Security & Zero Trust Architecture (Transition)",
+    "slug": "sc-500-security-zero-trust-transition",
+    "certification_code": "SC-500",
+    "category": "Cybersecurity & Identity Management",
+    "category_slug": "security",
+    "description": "Official announced replacement transition pathway for comprehensive Zero Trust architecture, cross-cloud posture management, and unified multi-tenant threat response.",
+    "price_cents": 0,
+    "price_usd": 0,
+    "price_lkr": 0,
+    "price_formatted": "Announced / Upcoming",
+    "level": "Specialty",
+    "duration": "TBA",
+    "schedule": "Upcoming Pathway",
+    "mode": "Upcoming Pathway",
+    "prerequisite": "Cybersecurity fundamentals",
+    "status": "Upcoming Pathway",
+    "badge_text": "Announced Pathway",
+    "technologies": ["Zero Trust", "Microsoft Sentinel", "Defender XDR", "Multi-Cloud Security"],
+    "syllabus": [
+      {
+        "module_number": 1,
+        "title": "Zero Trust Cloud Defense Transformation",
+        "topics": ["Next-gen Threat Intelligence", "Automated Incident Triage", "Cross-Platform Defense"],
+        "lab": "Hands-on architectural review of unified Zero Trust models"
+      }
+    ],
+    "is_published": true
+  }
+]

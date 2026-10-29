@@ -21,13 +21,24 @@ class CourseService {
       title: row.title,
       slug: row.slug,
       certification_code: row.certification_code || '',
-      category: row.category || 'Azure Cloud',
+      category: row.category || 'Cloud & Infrastructure',
+      category_slug: row.category_slug,
       description: row.description || '',
       price_cents: Number(row.price_cents) || 0,
       price_usd: Number(row.price_usd) || Math.round((Number(row.price_cents) || 0) / 100),
-      price_lkr: Number(row.price_lkr) || 35000,
-      level: row.level,
+      price_lkr: Number(row.price_lkr) || 0,
+      price_formatted:
+        row.price_formatted ||
+        (Number(row.price_lkr) > 0 ? `${Number(row.price_lkr).toLocaleString()} LKR` : 'Free'),
+      level: row.level || 'Associate',
       duration: row.duration || '6 Weeks',
+      schedule: row.schedule,
+      mode: row.mode,
+      prerequisite: row.prerequisite,
+      includes: row.includes,
+      status: row.status,
+      installments: row.installments,
+      batch_start: row.batch_start,
       badge_text: row.badge_text || '',
       technologies: Array.isArray(rawTech) ? rawTech : [],
       syllabus: Array.isArray(rawSyllabus) ? rawSyllabus : [],
@@ -54,8 +65,15 @@ class CourseService {
       course_title: row.course_title,
       course_slug: row.course_slug,
       batch_code: row.batch_code,
-      start_date: typeof row.start_date === 'string' ? row.start_date.split('T')[0] : new Date(row.start_date).toISOString().split('T')[0],
-      end_date: row.end_date ? (typeof row.end_date === 'string' ? row.end_date.split('T')[0] : new Date(row.end_date).toISOString().split('T')[0]) : undefined,
+      start_date:
+        typeof row.start_date === 'string'
+          ? row.start_date.split('T')[0]
+          : new Date(row.start_date).toISOString().split('T')[0],
+      end_date: row.end_date
+        ? typeof row.end_date === 'string'
+          ? row.end_date.split('T')[0]
+          : new Date(row.end_date).toISOString().split('T')[0]
+        : undefined,
       schedule: row.schedule || 'Weekends | 07:00 PM - 10:00 PM IST',
       max_capacity: maxCapacity,
       enrolled_count: enrolled,
@@ -101,12 +119,18 @@ class CourseService {
       let paramIndex = 1;
 
       if (category && category.toLowerCase() !== 'all') {
-        sql += ` AND LOWER(c.category) = LOWER($${paramIndex++})`;
-        params.push(category);
+        const catLower = category.toLowerCase();
+        sql += ` AND (
+          LOWER(c.category) = $${paramIndex} OR 
+          LOWER(COALESCE(c.category_slug, '')) = $${paramIndex} OR 
+          LOWER(c.category) LIKE $${paramIndex + 1}
+        )`;
+        params.push(catLower, `%${catLower}%`);
+        paramIndex += 2;
       }
 
       if (level && level.toLowerCase() !== 'all') {
-        sql += ` AND c.level = $${paramIndex++}`;
+        sql += ` AND LOWER(c.level) = LOWER($${paramIndex++})`;
         params.push(level.toLowerCase());
       }
 
@@ -161,29 +185,54 @@ class CourseService {
         batches: courseBatches,
       };
     }).filter((course) => {
-      // Category filter
+      // Category filter (supports slug, title, or aliases)
       if (category && category.toLowerCase() !== 'all') {
-        if (course.category.toLowerCase() !== category.toLowerCase()) {
+        const catLower = category.toLowerCase().trim();
+        const matchesCat =
+          course.category.toLowerCase() === catLower ||
+          (course.category_slug && course.category_slug.toLowerCase() === catLower) ||
+          (catLower === 'm365' && course.category.toLowerCase().includes('365')) ||
+          (catLower === 'cloud-infra' &&
+            (course.category.toLowerCase().includes('infra') ||
+              course.category.toLowerCase().includes('cloud & infrastructure'))) ||
+          (catLower === 'networking' && course.category.toLowerCase().includes('network')) ||
+          (catLower === 'devops' &&
+            (course.category.toLowerCase().includes('devops') ||
+              course.category.toLowerCase().includes('development'))) ||
+          (catLower === 'ai' &&
+            (course.category.toLowerCase().includes('intelligence') ||
+              course.category.toLowerCase().includes('ai'))) ||
+          (catLower === 'security' &&
+            (course.category.toLowerCase().includes('security') ||
+              course.category.toLowerCase().includes('identity')));
+
+        if (!matchesCat) {
           return false;
         }
       }
 
       // Level filter
       if (level && level.toLowerCase() !== 'all') {
-        if (course.level.toLowerCase() !== level.toLowerCase()) {
+        const lvlLower = level.toLowerCase();
+        const courseLvlLower = course.level.toLowerCase();
+        if (
+          courseLvlLower !== lvlLower &&
+          !(lvlLower === 'intermediate' && courseLvlLower === 'associate') &&
+          !(lvlLower === 'advanced' && courseLvlLower === 'expert')
+        ) {
           return false;
         }
       }
 
-      // Search keyword filter
+      // Search keyword filter across code, title, description, and technologies
       if (search && search.trim() !== '') {
         const q = search.toLowerCase().trim();
         const matchesTitle = course.title.toLowerCase().includes(q);
-        const matchesDesc = course.description.toLowerCase().includes(q);
         const matchesCode = (course.certification_code || '').toLowerCase().includes(q);
+        const matchesDesc = course.description.toLowerCase().includes(q);
         const matchesTech = course.technologies.some((t) => t.toLowerCase().includes(q));
 
-        if (!matchesTitle && !matchesDesc && !matchesCode && !matchesTech) {
+        if (!matchesTitle && !matchesCode && !matchesDesc && !matchesTech) {
           return false;
         }
       }
@@ -222,7 +271,11 @@ class CourseService {
     }
 
     // Fallback lookup
-    const course = SEED_COURSES.find((c) => c.slug.toLowerCase() === cleanSlug);
+    const course = SEED_COURSES.find(
+      (c) =>
+        c.slug.toLowerCase() === cleanSlug ||
+        (c.certification_code && c.certification_code.toLowerCase() === cleanSlug)
+    );
     if (!course) return null;
 
     const batches = SEED_BATCHES.filter((b) => b.course_id === course.id);
@@ -271,28 +324,23 @@ class CourseService {
     const course = SEED_COURSES.find((c) => c.id === batch.course_id);
     return {
       ...batch,
-      course_title: course?.title || 'Microsoft Azure Certification',
-      course_slug: course?.slug || 'azure-certification',
+      course_title: course?.title || 'Microsoft Cloud Certification',
+      course_slug: course?.slug || 'cloud-certification',
     };
   }
 
   /**
-   * Get distinct categories
+   * Get distinct 6 enterprise categories with names and slugs
    */
-  async getCategories(): Promise<string[]> {
-    try {
-      const result = await query(
-        `SELECT DISTINCT category FROM courses WHERE is_published = true ORDER BY category ASC`
-      );
-      if (result && result.rows && result.rows.length > 0) {
-        return result.rows.map((r: any) => r.category);
-      }
-    } catch {
-      // Fallback
-    }
-
-    const categories = Array.from(new Set(SEED_COURSES.map((c) => c.category)));
-    return categories;
+  async getCategories(): Promise<{ name: string; slug: string }[]> {
+    return [
+      { name: 'Microsoft 365 Administration', slug: 'm365' },
+      { name: 'Cloud & Infrastructure', slug: 'cloud-infra' },
+      { name: 'Cloud Networking', slug: 'networking' },
+      { name: 'DevOps & Cloud Development', slug: 'devops' },
+      { name: 'Artificial Intelligence (AI)', slug: 'ai' },
+      { name: 'Cybersecurity & Identity Management', slug: 'security' },
+    ];
   }
 }
 

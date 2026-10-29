@@ -1,4 +1,15 @@
-export type CourseLevel = 'beginner' | 'intermediate' | 'advanced';
+export type CourseLevel =
+  | 'Beginner'
+  | 'Associate'
+  | 'Intermediate'
+  | 'Expert'
+  | 'Specialty'
+  | 'Upcoming'
+  | 'beginner'
+  | 'intermediate'
+  | 'advanced'
+  | string;
+
 export type BatchStatus = 'upcoming' | 'ongoing' | 'completed';
 
 export interface SyllabusModule {
@@ -34,12 +45,21 @@ export interface Course {
   slug: string;
   certification_code?: string;
   category: string;
+  category_slug?: string;
   description: string;
   price_cents: number;
   price_usd: number;
   price_lkr: number;
+  price_formatted?: string;
   level: CourseLevel;
   duration: string;
+  schedule?: string;
+  mode?: string;
+  prerequisite?: string;
+  includes?: string;
+  status?: string;
+  installments?: string;
+  batch_start?: string;
   badge_text?: string;
   technologies: string[];
   syllabus: SyllabusModule[];
