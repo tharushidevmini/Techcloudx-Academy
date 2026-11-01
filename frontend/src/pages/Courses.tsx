@@ -129,6 +129,18 @@ export const Courses: React.FC = () => {
 
   const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
 
+  // Sync state if URL query params change (e.g. from navbar search)
+  useEffect(() => {
+    const q = searchParams.get('search');
+    if (q !== null && q !== searchQuery) {
+      setSearchQuery(q);
+    }
+    const cat = searchParams.get('category');
+    if (cat !== null && cat !== selectedCategory) {
+      setSelectedCategory(cat);
+    }
+  }, [searchParams]);
+
   // Fetch courses from backend API
   const fetchCourses = async () => {
     setIsLoading(true);
@@ -142,23 +154,15 @@ export const Courses: React.FC = () => {
 
       const url = `${apiBase}/courses?${params.toString()}`;
       const response = await fetch(url);
+      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(`Server returned HTTP ${response.status}`);
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Failed to retrieve course catalog');
       }
 
-      const resData = await response.json();
-      if (resData.success && Array.isArray(resData.data)) {
-        setCourses(resData.data);
-      } else {
-        throw new Error(resData.message || 'Invalid course catalog response format');
-      }
+      setCourses(data.data || []);
     } catch (err: any) {
-      console.error('[Courses API] Fetch error:', err);
-      setErrorMsg(
-        'Could not synchronize live course catalog from backend API. Please verify server status at ' +
-          apiBase
-      );
+      setErrorMsg(err.message || 'Error connecting to course API service.');
     } finally {
       setIsLoading(false);
     }
@@ -168,13 +172,13 @@ export const Courses: React.FC = () => {
     fetchCourses();
   }, [selectedCategory, selectedLevel]);
 
-  // Handle Search on Submit
+  // Handle Search Input submit
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchCourses();
   };
 
-  // Switch category tab
+  // Handle Category tab selection
   const handleCategoryChange = (slug: string) => {
     setSelectedCategory(slug);
     const newParams = new URLSearchParams(searchParams);
@@ -186,17 +190,19 @@ export const Courses: React.FC = () => {
     setSearchParams(newParams);
   };
 
-  // Open Enrollment Modal
+  // Open Cohort Batch Selection Modal
   const handleOpenEnrollModal = async (course: Course) => {
     setEnrollModalCourse(course);
     setBatchAvailability(null);
 
     try {
-      const response = await fetch(`${apiBase}/courses/${course.slug}`);
-      const data = await response.json();
+      const res = await fetch(`${apiBase}/courses/${course.slug}`);
+      const data = await res.json();
       if (data.success && data.data) {
-        setEnrollModalCourse(data.data);
-        const batches = data.data.batches || [];
+        const fullCourse = data.data;
+        const batches = fullCourse.batches || [];
+        setEnrollModalCourse(fullCourse);
+
         if (batches.length > 0) {
           const firstUpcoming = batches.find((b: Batch) => b.status === 'upcoming') || batches[0];
           setSelectedBatch(firstUpcoming);
@@ -257,15 +263,15 @@ export const Courses: React.FC = () => {
   const getLevelBadgeClass = (level: string) => {
     const lvl = level.toLowerCase();
     if (lvl.includes('beginner')) {
-      return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+      return 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30';
     }
     if (lvl.includes('associate') || lvl.includes('intermediate')) {
-      return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
+      return 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/30';
     }
     if (lvl.includes('expert') || lvl.includes('advanced')) {
-      return 'bg-purple-500/10 text-purple-400 border-purple-500/30';
+      return 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30';
     }
-    return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+    return 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30';
   };
 
   // Check if course has a mandatory prerequisite
@@ -296,36 +302,36 @@ export const Courses: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Hero Header */}
       <div className="text-center max-w-4xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-100 dark:bg-sky-500/10 border border-sky-300 dark:border-sky-500/30 text-sky-700 dark:text-sky-400 text-xs font-bold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Official 6-Pillar Enterprise Curriculum</span>
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white font-['Outfit'] tracking-tight">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white font-['Outfit'] tracking-tight">
           Enterprise Cloud & AI <span className="gradient-text">Certification Catalog</span>
         </h1>
-        <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+        <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
           Industrial live cohort bootcamps taught by Senior Principal Architects. Fully aligned with official Microsoft certification blueprints, cloud sandbox subscriptions, and capstone labs.
         </p>
 
         {/* Feature Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs text-slate-400">
-          <span className="flex items-center gap-1.5 bg-slate-900/70 px-3 py-1.5 rounded-xl border border-slate-800">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs text-slate-600 dark:text-slate-400">
+          <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900/70 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
             <span>MCT Certified Master Trainers</span>
           </span>
-          <span className="flex items-center gap-1.5 bg-slate-900/70 px-3 py-1.5 rounded-xl border border-slate-800">
-            <Zap className="w-4 h-4 text-sky-400" />
+          <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900/70 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <Zap className="w-4 h-4 text-sky-500" />
             <span>100% Hands-On Production Labs</span>
           </span>
-          <span className="flex items-center gap-1.5 bg-slate-900/70 px-3 py-1.5 rounded-xl border border-slate-800">
-            <Award className="w-4 h-4 text-amber-400" />
+          <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900/70 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <Award className="w-4 h-4 text-amber-500" />
             <span>Weekend Live Interactive Classes</span>
           </span>
         </div>
       </div>
 
       {/* 6-Pillar Category Tabs */}
-      <div className="glass-panel p-2.5 rounded-3xl border border-slate-800/80 shadow-2xl">
+      <div className="p-2.5 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-lg dark:shadow-2xl">
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 px-1">
           {PILLARS.map((pillar) => {
             const Icon = pillar.icon;
@@ -340,15 +346,15 @@ export const Courses: React.FC = () => {
                 className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all whitespace-nowrap group ${
                   isSelected
                     ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/25 ring-1 ring-sky-400/40'
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800/80'
+                    : 'bg-slate-100 dark:bg-slate-900/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-400 group-hover:text-sky-400'}`} />
+                <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-sky-500'}`} />
                 <span>{pillar.shortName}</span>
                 {count > 0 && (
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
-                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'
+                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                     }`}
                   >
                     {count}
@@ -361,16 +367,16 @@ export const Courses: React.FC = () => {
       </div>
 
       {/* Search & Filter Toolbar */}
-      <div className="glass-panel p-4 rounded-2xl border border-slate-800/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-md flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         {/* Search Input */}
         <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by code (AZ-104, MS-102, AZ-700) or topic..."
+            placeholder="Search by code (AZ-104, MS-102, AWS, DevOps) or keyword..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-20 py-2.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 rounded-xl pl-10 pr-20 py-2.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
           />
           <button
             type="submit"
@@ -383,7 +389,7 @@ export const Courses: React.FC = () => {
         {/* Level Filters & Currency Switcher */}
         <div className="flex flex-wrap items-center justify-between md:justify-end gap-3">
           {/* Level Filter Chips */}
-          <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-950 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
             <Filter className="w-3.5 h-3.5 text-slate-400 ml-1 mr-1 hidden sm:block" />
             {['all', 'beginner', 'associate', 'expert', 'specialty'].map((lvl) => (
               <button
@@ -391,8 +397,8 @@ export const Courses: React.FC = () => {
                 onClick={() => setSelectedLevel(lvl)}
                 className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold uppercase tracking-wider transition-all ${
                   selectedLevel === lvl
-                    ? 'bg-slate-700 text-white'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-white dark:bg-slate-800 text-sky-600 dark:text-white shadow-sm font-bold'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {lvl === 'all' ? 'All' : lvl}
@@ -401,12 +407,12 @@ export const Courses: React.FC = () => {
           </div>
 
           {/* Currency Toggle */}
-          <div className="flex items-center bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+          <div className="flex items-center bg-slate-100 dark:bg-slate-950 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setCurrency('LKR')}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                currency === 'LKR' ? 'bg-sky-500 text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                currency === 'LKR' ? 'bg-sky-500 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               LKR (Rs)
@@ -415,7 +421,7 @@ export const Courses: React.FC = () => {
               type="button"
               onClick={() => setCurrency('USD')}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                currency === 'USD' ? 'bg-sky-500 text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                currency === 'USD' ? 'bg-sky-500 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               USD ($)
@@ -427,24 +433,24 @@ export const Courses: React.FC = () => {
             type="button"
             onClick={fetchCourses}
             disabled={isLoading}
-            className="p-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-all"
+            className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 transition-all"
             title="Refresh Catalog"
           >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-sky-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-sky-500' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* Error Banner */}
       {errorMsg && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-amber-300 text-xs sm:text-sm">
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-amber-700 dark:text-amber-300 text-xs sm:text-sm">
           <div className="flex items-center gap-2.5">
-            <AlertCircle className="w-5 h-5 flex-shrink-0 text-amber-400" />
+            <AlertCircle className="w-5 h-5 flex-shrink-0 text-amber-500" />
             <span>{errorMsg}</span>
           </div>
           <button
             onClick={fetchCourses}
-            className="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs font-bold"
+            className="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-700 dark:text-amber-200 text-xs font-bold"
           >
             Retry
           </button>
@@ -455,14 +461,14 @@ export const Courses: React.FC = () => {
       {isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div key={n} className="glass-panel rounded-3xl p-6 border border-slate-800 space-y-4 animate-pulse">
+            <div key={n} className="rounded-3xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 animate-pulse">
               <div className="flex justify-between items-center">
-                <div className="h-6 w-20 bg-slate-800 rounded-lg" />
-                <div className="h-6 w-24 bg-slate-800 rounded-lg" />
+                <div className="h-6 w-20 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+                <div className="h-6 w-24 bg-slate-200 dark:bg-slate-800 rounded-lg" />
               </div>
-              <div className="h-6 w-3/4 bg-slate-800 rounded" />
-              <div className="h-12 w-full bg-slate-800/60 rounded" />
-              <div className="h-16 w-full bg-slate-900 rounded-2xl" />
+              <div className="h-6 w-3/4 bg-slate-200 dark:bg-slate-800 rounded" />
+              <div className="h-12 w-full bg-slate-100 dark:bg-slate-800/60 rounded" />
+              <div className="h-16 w-full bg-slate-100 dark:bg-slate-950 rounded-2xl" />
               <div className="h-11 w-full bg-sky-500/20 rounded-xl" />
             </div>
           ))}
@@ -471,10 +477,10 @@ export const Courses: React.FC = () => {
 
       {/* Empty State */}
       {!isLoading && courses.length === 0 && (
-        <div className="glass-panel p-12 rounded-3xl border border-slate-800 text-center space-y-4 max-w-md mx-auto">
-          <BookOpen className="w-12 h-12 text-slate-500 mx-auto" />
-          <h3 className="text-xl font-bold text-white font-['Outfit']">No Matching Tracks Found</h3>
-          <p className="text-xs text-slate-400">
+        <div className="p-12 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-4 max-w-md mx-auto shadow-sm">
+          <BookOpen className="w-12 h-12 text-slate-400 mx-auto" />
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">No Matching Tracks Found</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             No courses match your selected filter criteria. Reset your filters to explore all 6 pillars.
           </p>
           <button
@@ -504,7 +510,7 @@ export const Courses: React.FC = () => {
             return (
               <div
                 key={course.id || course.slug}
-                className="glass-panel rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-800/90 hover:border-sky-500/50 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300 group relative"
+                className="rounded-3xl bg-white dark:bg-slate-900/90 overflow-hidden flex flex-col justify-between border border-slate-200 dark:border-slate-800/90 hover:border-sky-500/50 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300 group relative shadow-md shadow-slate-200/50 dark:shadow-none"
               >
                 {/* Glow subtle highlight */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-sky-500/10 via-transparent to-transparent pointer-events-none rounded-tr-3xl" />
@@ -527,18 +533,18 @@ export const Courses: React.FC = () => {
                           {course.level}
                         </span>
                       </div>
-                      <span className="text-[11px] text-slate-400 font-medium block">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block">
                         {course.category}
                       </span>
                     </div>
 
                     {/* Price Badge */}
                     <div className="text-right">
-                      <div className="text-lg font-black text-white font-['Outfit'] leading-tight">
+                      <div className="text-lg font-black text-slate-900 dark:text-white font-['Outfit'] leading-tight">
                         {getDisplayPrice(course)}
                       </div>
                       {course.installments && (
-                        <span className="text-[10px] text-emerald-400 font-medium block">
+                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium block">
                           {course.installments}
                         </span>
                       )}
@@ -546,29 +552,29 @@ export const Courses: React.FC = () => {
                   </div>
 
                   {/* Course Title */}
-                  <h2 className="text-lg font-bold text-white group-hover:text-sky-300 transition-colors font-['Outfit'] leading-snug line-clamp-2">
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors font-['Outfit'] leading-snug line-clamp-2">
                     {course.title}
                   </h2>
 
                   {/* Course Description */}
-                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
                     {course.description}
                   </p>
 
                   {/* Schedule & Duration Pills */}
-                  <div className="flex flex-wrap gap-2 text-[11px] text-slate-300">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800">
-                      <Clock className="w-3.5 h-3.5 text-sky-400" />
+                  <div className="flex flex-wrap gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                      <Clock className="w-3.5 h-3.5 text-sky-500" />
                       <span>{course.duration}</span>
                     </span>
                     {course.schedule && (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800">
-                        <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                        <Calendar className="w-3.5 h-3.5 text-amber-500" />
                         <span>{course.schedule}</span>
                       </span>
                     )}
                     {course.batch_start && (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-semibold">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 font-semibold">
                         <span>Cohort: {course.batch_start}</span>
                       </span>
                     )}
@@ -576,8 +582,8 @@ export const Courses: React.FC = () => {
 
                   {/* Mandatory Prerequisite Warning Banner */}
                   {hasPrereq && (
-                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-2 text-amber-300 text-[11px]">
-                      <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0 text-amber-400 mt-0.5" />
+                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-2 text-amber-700 dark:text-amber-300 text-[11px]">
+                      <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0 text-amber-500 mt-0.5" />
                       <div>
                         <strong className="font-bold">Prerequisite:</strong> {course.prerequisite}
                       </div>
@@ -586,8 +592,8 @@ export const Courses: React.FC = () => {
 
                   {/* Includes Perk Pill */}
                   {course.includes && (
-                    <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2 text-emerald-300 text-[11px]">
-                      <Check className="w-3.5 h-3.5 flex-shrink-0 text-emerald-400" />
+                    <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2 text-emerald-700 dark:text-emerald-300 text-[11px]">
+                      <Check className="w-3.5 h-3.5 flex-shrink-0 text-emerald-500" />
                       <span className="font-semibold">{course.includes}</span>
                     </div>
                   )}
@@ -597,7 +603,7 @@ export const Courses: React.FC = () => {
                     {course.technologies.slice(0, 5).map((tech) => (
                       <span
                         key={tech}
-                        className="text-[10px] font-medium px-2 py-0.5 rounded bg-slate-900/80 text-slate-400 border border-slate-800"
+                        className="text-[10px] font-medium px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
                       >
                         {tech}
                       </span>
@@ -613,22 +619,22 @@ export const Courses: React.FC = () => {
                   {course.syllabus && course.syllabus.length > 0 && (
                     <div className="pt-1">
                       {isSyllabusOpen && (
-                        <div className="p-3 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2.5 max-h-56 overflow-y-auto text-xs text-slate-300 mb-2">
+                        <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 space-y-2.5 max-h-56 overflow-y-auto text-xs text-slate-700 dark:text-slate-300 mb-2">
                           {course.syllabus.map((mod) => (
                             <div key={mod.module_number} className="space-y-1">
-                              <div className="font-bold text-sky-300 flex items-center gap-1.5">
-                                <span className="w-4 h-4 rounded-full bg-sky-500/20 text-sky-400 inline-flex items-center justify-center text-[10px]">
+                              <div className="font-bold text-sky-600 dark:text-sky-300 flex items-center gap-1.5">
+                                <span className="w-4 h-4 rounded-full bg-sky-500/20 text-sky-600 dark:text-sky-400 inline-flex items-center justify-center text-[10px]">
                                   {mod.module_number}
                                 </span>
                                 <span>{mod.title}</span>
                               </div>
-                              <ul className="list-disc list-inside text-slate-400 pl-5 space-y-0.5 text-[11px]">
+                              <ul className="list-disc list-inside text-slate-600 dark:text-slate-400 pl-5 space-y-0.5 text-[11px]">
                                 {mod.topics.map((t, idx) => (
                                   <li key={idx}>{t}</li>
                                 ))}
                               </ul>
                               {mod.lab && (
-                                <div className="ml-5 mt-1 p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300">
+                                <div className="ml-5 mt-1 p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-700 dark:text-emerald-300">
                                   <strong>Lab:</strong> {mod.lab}
                                 </div>
                               )}
@@ -641,7 +647,7 @@ export const Courses: React.FC = () => {
                 </div>
 
                 {/* Card Actions Footer */}
-                <div className="p-6 pt-3 border-t border-slate-800/80 bg-slate-900/50 space-y-3 rounded-b-3xl">
+                <div className="p-6 pt-3 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/50 space-y-3 rounded-b-3xl">
                   <div className="grid grid-cols-2 gap-2.5">
                     {/* View Details / Syllabus Toggle Button */}
                     <button
@@ -649,9 +655,9 @@ export const Courses: React.FC = () => {
                       onClick={() =>
                         setExpandedSyllabusSlug(isSyllabusOpen ? null : course.slug)
                       }
-                      className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700/80 transition-all"
+                      className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 transition-all shadow-sm"
                     >
-                      <Layers className="w-3.5 h-3.5 text-sky-400" />
+                      <Layers className="w-3.5 h-3.5 text-sky-500" />
                       <span>{isSyllabusOpen ? 'Hide Outline' : 'View Syllabus'}</span>
                     </button>
 
@@ -660,7 +666,7 @@ export const Courses: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => navigate(`/register?course=${course.slug}&type=waitlist`)}
-                        className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs text-amber-300 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 transition-all"
+                        className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs text-amber-700 dark:text-amber-300 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 transition-all"
                       >
                         <span>Pre-Register</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -685,15 +691,15 @@ export const Courses: React.FC = () => {
 
       {/* Cohort Batch Selection & Enrollment Modal */}
       {enrollModalCourse && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
-          <div className="glass-panel w-full max-w-2xl rounded-3xl border border-slate-700/80 shadow-2xl p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="w-full max-w-2xl rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 shadow-2xl p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto">
             {/* Close */}
             <button
               onClick={() => {
                 setEnrollModalCourse(null);
                 setSelectedBatch(null);
               }}
-              className="absolute top-5 right-5 p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-all"
+              className="absolute top-5 right-5 p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
             >
               <X className="w-5 h-5" />
             </button>
@@ -704,35 +710,35 @@ export const Courses: React.FC = () => {
                 <span className="text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded bg-sky-500 text-white">
                   {enrollModalCourse.certification_code || 'Certified Track'}
                 </span>
-                <span className="text-xs text-sky-400 font-semibold uppercase tracking-wider">
+                <span className="text-xs text-sky-600 dark:text-sky-400 font-semibold uppercase tracking-wider">
                   Live Cohort Enrollment
                 </span>
               </div>
-              <h2 className="text-2xl font-extrabold text-white font-['Outfit']">
+              <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
                 {enrollModalCourse.title}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
                 {enrollModalCourse.description}
               </p>
             </div>
 
             {/* Tuition & Prerequisite Warning Banner */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-0.5">
-                <span className="text-[11px] text-slate-400 uppercase tracking-wider">Tuition Fee</span>
-                <div className="text-2xl font-black text-white font-['Outfit']">
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-0.5">
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tuition Fee</span>
+                <div className="text-2xl font-black text-slate-900 dark:text-white font-['Outfit']">
                   {getDisplayPrice(enrollModalCourse)}
                 </div>
                 {enrollModalCourse.installments && (
-                  <span className="text-[11px] text-emerald-400 font-semibold block">
+                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block">
                     {enrollModalCourse.installments}
                   </span>
                 )}
               </div>
 
               {enrollModalCourse.prerequisite && isMandatoryPrereq(enrollModalCourse.prerequisite) && (
-                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-1 text-xs text-amber-200">
-                  <div className="flex items-center gap-1.5 font-bold text-amber-400 uppercase tracking-wider text-[11px]">
+                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-1 text-xs text-amber-800 dark:text-amber-200">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider text-[11px]">
                     <AlertTriangle className="w-4 h-4" />
                     <span>Mandatory Prerequisite</span>
                   </div>
@@ -743,13 +749,13 @@ export const Courses: React.FC = () => {
 
             {/* Batches Selector */}
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center justify-between">
                 <span>Select Cohort Batch Schedule</span>
-                <span className="text-sky-400 font-normal">Live Instructor-Led</span>
+                <span className="text-sky-600 dark:text-sky-400 font-normal">Live Instructor-Led</span>
               </label>
 
               {(!enrollModalCourse.batches || enrollModalCourse.batches.length === 0) ? (
-                <div className="p-4 rounded-xl bg-slate-900/60 text-center text-xs text-slate-400">
+                <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950/60 text-center text-xs text-slate-500 dark:text-slate-400">
                   No open batches available at the moment. Please contact admissions.
                 </div>
               ) : (
@@ -767,30 +773,30 @@ export const Courses: React.FC = () => {
                         }}
                         className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                           isSelected
-                            ? 'bg-sky-500/15 border-sky-500 text-white shadow-lg shadow-sky-500/10'
-                            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-300'
+                            ? 'bg-sky-50 dark:bg-sky-500/15 border-sky-500 text-slate-900 dark:text-white shadow-lg shadow-sky-500/10'
+                            : 'bg-slate-50 dark:bg-slate-950/60 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-white text-sm">
+                            <span className="font-bold text-slate-900 dark:text-white text-sm">
                               {batch.batch_code}
                             </span>
-                            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                            <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
                               Starts {batch.start_date}
                             </span>
                           </div>
-                          <div className="text-xs text-slate-400 flex items-center gap-1.5">
-                            <Calendar className="w-3.5 h-3.5 text-sky-400" />
+                          <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                            <Calendar className="w-3.5 h-3.5 text-sky-500" />
                             <span>{batch.schedule}</span>
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                        <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200 dark:border-slate-800/80">
                           <div className="text-right">
                             <span
                               className={`text-xs font-bold ${
-                                seats <= 5 ? 'text-amber-400' : 'text-emerald-400'
+                                seats <= 5 ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'
                               }`}
                             >
                               {seats} seats left
@@ -803,7 +809,7 @@ export const Courses: React.FC = () => {
                             className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                               isSelected
                                 ? 'border-sky-500 bg-sky-500 text-white'
-                                : 'border-slate-600'
+                                : 'border-slate-300 dark:border-slate-600'
                             }`}
                           >
                             {isSelected && <CheckCircle2 className="w-4 h-4" />}
@@ -817,14 +823,14 @@ export const Courses: React.FC = () => {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 pt-3 border-t border-slate-800">
+            <div className="flex flex-col sm:flex-row items-center gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 onClick={() => {
                   setEnrollModalCourse(null);
                   setSelectedBatch(null);
                 }}
-                className="w-full sm:w-1/3 py-3 rounded-2xl font-bold text-xs text-slate-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-all"
+                className="w-full sm:w-1/3 py-3 rounded-2xl font-bold text-xs text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 transition-all"
               >
                 Cancel
               </button>

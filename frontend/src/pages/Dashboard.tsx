@@ -11,32 +11,29 @@ import {
   FileText,
   Play,
   ArrowUpRight,
+  Sparkles,
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const Dashboard: React.FC = () => {
-  const userString = localStorage.getItem('user');
-  const user = userString
-    ? JSON.parse(userString)
-    : {
-        full_name: 'Alex Rivera',
-        email: 'alex.rivera@techcloudx.com',
-        role: 'student',
-      };
+  const { user } = useAuth();
+  const displayName = user?.name || user?.full_name || 'Alex Rivera';
+  const firstName = displayName.split(' ')[0];
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Welcome Banner */}
-      <div className="glass-panel p-8 rounded-3xl border border-slate-800 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-xs font-semibold text-sky-400">
-            <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 dark:bg-sky-500/10 border border-sky-300 dark:border-sky-500/20 text-xs font-semibold text-sky-700 dark:text-sky-400">
+            <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping" />
             <span>Active Cohort In Progress</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white font-['Outfit']">
-            Welcome back, {user.full_name.split(' ')[0]}!
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">
+            Welcome back, {firstName}!
           </h1>
-          <p className="text-sm text-slate-400">
-            Your live cohort session for <span className="text-sky-300 font-semibold">AWS Solutions Architect (Batch SAA-2601)</span> starts this Saturday at 10:00 AM EST.
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            Your live cohort session for <span className="text-sky-600 dark:text-sky-300 font-semibold">AWS Solutions Architect (Batch SAA-2601)</span> starts this Saturday at 10:00 AM EST.
           </p>
         </div>
 
@@ -50,8 +47,8 @@ export const Dashboard: React.FC = () => {
             <Video className="w-4 h-4" />
             <span>Join Live Cohort Room</span>
           </a>
-          <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-sm text-slate-300 bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-all">
-            <Terminal className="w-4 h-4 text-emerald-400" />
+          <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-sm text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 transition-all">
+            <Terminal className="w-4 h-4 text-emerald-500" />
             <span>Open Sandbox Lab</span>
           </button>
         </div>
@@ -60,147 +57,135 @@ export const Dashboard: React.FC = () => {
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { title: 'Enrolled Cohort', value: 'AWS SAA-C03', sub: 'Week 4 of 8', icon: Calendar, color: 'text-sky-400' },
-          { title: 'Lab Sandbox Hours', value: '38.5 hrs', sub: '12 hrs remaining', icon: Terminal, color: 'text-emerald-400' },
-          { title: 'Lab Assignments', value: '7 / 8 Done', sub: 'Next due Sunday', icon: FileText, color: 'text-amber-400' },
-          { title: 'Cohort Attendance', value: '100%', sub: 'Perfect record', icon: CheckCircle2, color: 'text-indigo-400' },
+          { title: 'Enrolled Cohort', value: 'AWS SAA-C03', sub: 'Week 4 of 8', icon: Calendar, color: 'text-sky-500' },
+          { title: 'Lab Sandbox Hours', value: '38.5 hrs', sub: '12 hrs remaining', icon: Terminal, color: 'text-emerald-500' },
+          { title: 'Lab Assignments', value: '7 / 8 Done', sub: 'Next due Sunday', icon: FileText, color: 'text-amber-500' },
+          { title: 'Cohort Attendance', value: '100%', sub: 'Perfect record', icon: CheckCircle2, color: 'text-indigo-500' },
         ].map((metric) => {
           const Icon = metric.icon;
           return (
-            <div key={metric.title} className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-2">
+            <div key={metric.title} className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  {metric.title}
-                </span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">{metric.title}</span>
                 <Icon className={`w-5 h-5 ${metric.color}`} />
               </div>
-              <p className="text-2xl font-black text-white font-['Outfit']">{metric.value}</p>
-              <p className="text-xs text-slate-400">{metric.sub}</p>
+              <div className="text-2xl font-black text-slate-900 dark:text-white font-['Outfit']">{metric.value}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">{metric.sub}</div>
             </div>
           );
         })}
       </div>
 
-      {/* Current Cohort Curriculum & Schedule */}
+      {/* Main Dashboard Two-Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        {/* Left Column: Live Syllabus Progress */}
+        <div className="lg:col-span-2 p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
             <div>
-              <h2 className="text-xl font-bold text-white font-['Outfit']">Cohort Live Schedule & Modules</h2>
-              <p className="text-xs text-slate-400">Mastering Multi-AZ VPCs, Load Balancing, and EKS clusters</p>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Outfit']">Cohort Curriculum Progress</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">AWS Certified Solutions Architect (Associate SAA-C03)</p>
             </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Module 4 In Progress
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-100 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300">
+              Module 4 / 8 Active
             </span>
           </div>
 
           <div className="space-y-4">
             {[
-              {
-                week: 'Week 1',
-                title: 'Cloud Foundations & Identity Access Management (IAM)',
-                status: 'Completed',
-                date: 'Completed Oct 05',
-              },
-              {
-                week: 'Week 2',
-                title: 'High Availability Multi-Tier VPCs & Transit Gateways',
-                status: 'Completed',
-                date: 'Completed Oct 12',
-              },
-              {
-                week: 'Week 3',
-                title: 'Elastic Compute (EC2), Auto-Scaling, and ALB Routing',
-                status: 'Completed',
-                date: 'Completed Oct 19',
-              },
-              {
-                week: 'Week 4',
-                title: 'Production Kubernetes (EKS) & Microservices Containerization',
-                status: 'Current Live',
-                date: 'Saturday, 10:00 AM EST',
-              },
-              {
-                week: 'Week 5',
-                title: 'Database Resiliency (RDS Multi-AZ, DynamoDB Global Tables)',
-                status: 'Upcoming',
-                date: 'Next Saturday',
-              },
-            ].map((module) => (
+              { num: 1, title: 'Cloud Fundamentals, IAM & Security Governance', status: 'Completed', date: 'Oct 05' },
+              { num: 2, title: 'VPC Architecture, Subnetting & Transit Gateways', status: 'Completed', date: 'Oct 12' },
+              { num: 3, title: 'EC2 Auto Scaling, ALB/NLB & High Availability', status: 'Completed', date: 'Oct 19' },
+              { num: 4, title: 'S3 Storage Classes, Lifecycle Rules & KMS Encryption', status: 'In Progress', date: 'Oct 26' },
+              { num: 5, title: 'EKS Kubernetes Clusters, Fargate & Microservices', status: 'Upcoming', date: 'Nov 02' },
+              { num: 6, title: 'Database Resilience: RDS Multi-AZ, DynamoDB Global', status: 'Upcoming', date: 'Nov 09' },
+            ].map((mod) => (
               <div
-                key={module.week}
-                className="flex items-center justify-between p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-colors"
+                key={mod.num}
+                className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between gap-4"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   <div
-                    className={`w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold ${
-                      module.status === 'Completed'
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                        : module.status === 'Current Live'
-                        ? 'bg-sky-500/20 text-sky-400 border border-sky-500/40 animate-pulse'
-                        : 'bg-slate-800 text-slate-400'
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs ${
+                      mod.status === 'Completed'
+                        ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                        : mod.status === 'In Progress'
+                        ? 'bg-sky-500/15 text-sky-600 dark:text-sky-400'
+                        : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                     }`}
                   >
-                    {module.week.split(' ')[1]}
+                    {mod.num}
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white">{module.title}</h4>
-                    <p className="text-xs text-slate-400">{module.date}</p>
+                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">{mod.title}</h3>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Live Cohort Date: {mod.date}</p>
                   </div>
                 </div>
 
                 <span
-                  className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                    module.status === 'Completed'
-                      ? 'text-emerald-400 bg-emerald-500/10'
-                      : module.status === 'Current Live'
-                      ? 'text-sky-300 bg-sky-500/20'
-                      : 'text-slate-400 bg-slate-800'
+                  className={`text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap ${
+                    mod.status === 'Completed'
+                      ? 'bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                      : mod.status === 'In Progress'
+                      ? 'bg-sky-100 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 animate-pulse'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                   }`}
                 >
-                  {module.status}
+                  {mod.status}
                 </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Cloud Sandbox Sandbox Widget */}
+        {/* Right Column: Active Sandboxes & Live Mentorship */}
         <div className="space-y-6">
-          <div className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
-            <h3 className="text-lg font-bold text-white font-['Outfit']">Your Dedicated Lab Sandbox</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Temporary AWS Sandbox environment provisioned for Batch SAA-2601. Credentials reset every 24 hours.
-            </p>
-
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-xs space-y-2 text-slate-300">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Account ID:</span>
-                <span className="text-sky-400">9284-1849-0129</span>
+          {/* Cloud Sandbox Card */}
+          <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                <Terminal className="w-5 h-5" />
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Region:</span>
-                <span>us-east-1 (N. Virginia)</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Role:</span>
-                <span>TechCloudX-Student-Sandbox</span>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Active Sandbox Tenant</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">AWS Production Mock</p>
               </div>
             </div>
 
-            <button className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 shadow-md shadow-emerald-500/20 transition-all">
+            <div className="space-y-2 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-950/70 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 font-mono">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Account ID:</span>
+                <span className="font-bold text-slate-900 dark:text-white">9482-1049-5501</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">IAM Role:</span>
+                <span className="text-sky-600 dark:text-sky-400 font-bold">CloudEngineerAdmin</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Expiry:</span>
+                <span className="text-amber-600 dark:text-amber-400 font-bold">12 Days</span>
+              </div>
+            </div>
+
+            <button className="w-full py-2.5 rounded-xl font-bold text-xs text-white bg-emerald-600 hover:bg-emerald-500 shadow-md transition-all flex items-center justify-center gap-2">
               <span>Launch AWS Console</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <ExternalLink className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
-            <h3 className="text-base font-bold text-white font-['Outfit']">Instructor Office Hours</h3>
-            <p className="text-xs text-slate-400">
-              Need architectural guidance? 1-on-1 slots available Wednesdays & Thursdays.
+          {/* Quick Mentorship Card */}
+          <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              <Sparkles className="w-4 h-4" />
+              <span>1-on-1 Mentor Office Hours</span>
+            </div>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">
+              Book Architecture Review
+            </h3>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Schedule a 30-minute private architectural audit with a Principal Cloud Architect to review your capstone terraform code.
             </p>
-            <button className="w-full py-2.5 rounded-xl border border-slate-700 hover:border-slate-600 text-xs font-semibold text-slate-200 hover:text-white transition-colors">
-              Schedule 1-on-1 Review
+            <button className="w-full py-2.5 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all">
+              Schedule with Mentor →
             </button>
           </div>
         </div>
